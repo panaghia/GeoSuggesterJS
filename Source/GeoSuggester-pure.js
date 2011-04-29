@@ -75,12 +75,13 @@ GeoSuggester.prototype.inject = function()
 
 GeoSuggester.prototype.manageEvents = function()
 { 
-	
+   
 	//keyup event
 	this.inputElement.addEventListener("keyup", function(event)
 	{
-		var fieldSize = that.inputElement.value.length; 
-		if(event.keyCode == '13' || event.keyCode == '9')
+		var fieldSize = that.inputElement.value.length;   
+		//13 enter, 9 tab, 27 esc
+		if(event.keyCode == '13' || event.keyCode == '9' || event.keyCode == '27')
 		{
 		  
 		}
@@ -99,11 +100,9 @@ GeoSuggester.prototype.manageEvents = function()
 				that.showCanvas(false);
 			}			
 		}
-
-		
-		
-	});
-	
+  	
+	}, false);
+    
 }  
 
 GeoSuggester.prototype.showCanvas = function(flag)
