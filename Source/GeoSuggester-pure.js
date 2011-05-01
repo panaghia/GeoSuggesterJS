@@ -11,7 +11,6 @@ provides: GeoSuggester
 
 */    
 
-
 var GeoSuggester = function(inputEl, options)
 {
 	this.options = options;
@@ -48,7 +47,8 @@ GeoSuggester.prototype.calculate = function()
 		this.inputHeight = getComputedStyle(this.inputElement, "").getPropertyValue("height");
 		this.paddingLeft = getComputedStyle(this.inputElement, "").getPropertyValue("padding-left").match(/(\d*\.?\d*)(.*)/)[1];
 		this.paddingRight = getComputedStyle(this.inputElement, "").getPropertyValue("padding-right").match(/(\d*\.?\d*)(.*)/)[1];
-		
+		this.paddingTop = getComputedStyle(this.inputElement, "").getPropertyValue("padding-top").match(/(\d*\.?\d*)(.*)/)[1];    
+		this.paddingBottom = getComputedStyle(this.inputElement, "").getPropertyValue("padding-bottom").match(/(\d*\.?\d*)(.*)/)[1];    
 	}
 	else if(inputElement.currentStyle)
 	{
@@ -56,6 +56,8 @@ GeoSuggester.prototype.calculate = function()
 		this.inputHeight = this.inputElement.currentStyle["height"];
 		this.paddingLeft = this.inputElement.currentStyle["padding-left"];
 		this.paddingRight = this.inputElement.currentStyle["padding-right"];
+		this.paddingTop = this.inputElement.currentStyle["padding-top"];
+		this.paddingBottom = this.inputElement.currentStyle["padding-bottom"];
 	}
 		
 }
@@ -66,7 +68,9 @@ GeoSuggester.prototype.inject = function()
 	canvas.setAttribute('class', '_mapCanvas_');
 	canvas.style.position = "absolute";
 	canvas.style.left = this.posx+"px";
-	canvas.style.top = (this.posx+this.inputHeight)+"px";
+	canvas.style.top = parseInt(this.posy)+parseInt(this.inputHeight)+parseInt(this.paddingTop)+parseInt(this.paddingBottom)+"px";
+	
+	
 	canvas.style.width = (parseInt(this.inputWidth)+parseInt(this.paddingLeft)+parseInt(this.paddingRight))+"px";
  	canvas.style.height = this.options.canvasHeight+"px";
 	canvas.style.border = "1px solid #999";
@@ -158,11 +162,12 @@ GeoSuggester.prototype.loadMap = function()
 						position: results[0].geometry.location
 					});  
 					
-				   				   
-					if(typeof that.mapHUD == "undefined")
+				    console.log(that.mapHUD === null);  		  
+				    if(true)//that.mapHUD === null)
 					{
-						that.mapHUD = mapHUD;
-						mapHUD = document.createElement('div');
+						//that.mapHUD = mapHUD; 
+						console.log('creadted');
+					    var mapHUD = that.mapHUD = document.createElement('div');
 						mapHUD.setAttribute('class', '_mapHud_');
 						mapHUD.style.position = "absolute";
 						mapHUD.style.left = "80px";
@@ -172,7 +177,7 @@ GeoSuggester.prototype.loadMap = function()
 						mapHUD.innerHTML = "TESTO DI ESEMPIO";
 						that.canvas.appendChild(mapHUD);
 					 }  
-							   
+						    
 					
 				} 
 				
@@ -186,5 +191,4 @@ GeoSuggester.prototype.loadMap = function()
 	
 	
 }
-
 
