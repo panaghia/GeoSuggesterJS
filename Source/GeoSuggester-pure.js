@@ -68,9 +68,7 @@ GeoSuggester.prototype.inject = function()
 	canvas.setAttribute('class', '_mapCanvas_');
 	canvas.style.position = "absolute";
 	canvas.style.left = this.posx+"px";
-	canvas.style.top = parseInt(this.posy)+parseInt(this.inputHeight)+parseInt(this.paddingTop)+parseInt(this.paddingBottom)+"px";
-	
-	
+	canvas.style.top = parseInt(this.posy)+parseInt(this.inputHeight)+parseInt(this.paddingTop)+parseInt(this.paddingBottom)+"px";	
 	canvas.style.width = (parseInt(this.inputWidth)+parseInt(this.paddingLeft)+parseInt(this.paddingRight))+"px";
  	canvas.style.height = this.options.canvasHeight+"px";
 	canvas.style.border = "1px solid #999";
