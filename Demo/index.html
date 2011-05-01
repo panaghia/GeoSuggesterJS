@@ -14,7 +14,7 @@
 			padding:3px;
 			width: 450px;
 			height:30px;
-			font-size:2em;
+			font-size:1.1em;
 		}
 		
 		</style> 
@@ -25,7 +25,12 @@
 		window.onload = function()
 		{
 			var geo = new GeoSuggester("myInput",{
-				canvasHeight: 400				
+				canvasHeight: 400,
+				mode: 'map',
+				onSelect: function()
+				{
+					console.log('selected');
+				}			
 			});
 		}
 		
@@ -40,6 +45,10 @@
 	<body>
 		<div id="wrap">
 			<input type="text" id="myInput" />
+			                                    
+			<label>Via</label>
+			<input type="text" readonly="true" />
+			
 		</div>
 		
 	</body>

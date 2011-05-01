@@ -23,13 +23,15 @@ var GeoSuggester = function(inputEl, options)
 	this.visible = false;
 	that = this;  
 	this.results = null; 
-	this.mapHUD = null; 
-	
+	this.mapHUD = null;
+	this.mode = options.mode;
+		
 	this.cache = null;
 	
 	this.calculate();
 	this.inject();
 	this.manageEvents(); 
+	
 	
 	   
 		
@@ -83,7 +85,11 @@ GeoSuggester.prototype.manageEvents = function()
 		//13 enter, 9 tab, 27 esc
 		if(event.keyCode == '13' || event.keyCode == '9' || event.keyCode == '27')
 		{
-		  
+			that.inputElement.value = that.results[0].formatted_address;
+		    
+		  	if(that.options.onSelect)
+				that.options.onSelect.call(that);
+		  	that.showCanvas(false);		
 		}
 		else
 		{
@@ -137,7 +143,7 @@ GeoSuggester.prototype.loadMap = function()
 				
 				that.results = results;
 				var type = results[0].geometry.location_type;
-				suggest = results[0].formatted_address;
+				
 				if(type !== 'APPROXIMATE')
 				{
 					var gOptions = 
@@ -150,9 +156,9 @@ GeoSuggester.prototype.loadMap = function()
 					marker = new google.maps.Marker({
 						map: map,
 						position: results[0].geometry.location
-					});                                       
-					 
-				   
+					});  
+					
+				   				   
 					if(typeof that.mapHUD == "undefined")
 					{
 						that.mapHUD = mapHUD;
