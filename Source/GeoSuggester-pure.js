@@ -87,6 +87,8 @@ GeoSuggester.prototype.manageEvents = function()
 		//13 enter, 9 tab, 27 esc
 		if(event.keyCode == '13' || event.keyCode == '9' || event.keyCode == '27')
 		{
+			event.preventDefault();
+			event.stopPropagation();
 			that.inputElement.value = that.results[0].formatted_address;
 		    
 		  	if(that.options.onSelect)
@@ -144,6 +146,7 @@ GeoSuggester.prototype.loadMap = function()
 				center = results[0].geometry.location;
 				
 				that.results = results;
+				that.suggest = results[0].formatted_address;
 				var type = results[0].geometry.location_type;
 				
 				if(type !== 'APPROXIMATE')
@@ -152,30 +155,41 @@ GeoSuggester.prototype.loadMap = function()
 					{
 						zoom: 9,
 						center: center,
-						mapTypeId: google.maps.MapTypeId.ROADMAP
+						mapTypeId: google.maps.MapTypeId.ROADMAP,
+						disableDefaultUI: true
 					}                                           
 					map = new google.maps.Map(that.canvas, gOptions);
 					marker = new google.maps.Marker({
-						map: map,
+						//map: map,
 						position: results[0].geometry.location
 					});  
+					marker.setMap(map); 
 					
-				    console.log(that.mapHUD === null);  		  
+				   /* 
+					var baloon = new google.maps.InfoWindow({
+						content: that.suggest
+						
+					});
+					baloon.open(map, marker);     */                 
+				   
+					//google.maps.event.addListener()
+					
+					
+				   // console.log(that.mapHUD === null);  		  
 				    if(true)//that.mapHUD === null)
 					{
 						//that.mapHUD = mapHUD; 
-						console.log('creadted');
+					   // console.log('creadted');
 					    var mapHUD = that.mapHUD = document.createElement('div');
 						mapHUD.setAttribute('class', '_mapHud_');
 						mapHUD.style.position = "absolute";
-						mapHUD.style.left = "80px";
-						mapHUD.style.top = "20px";
-						mapHUD.style.backgroundColor = "#333";
-						mapHUD.style.color = "#fff";
-						mapHUD.innerHTML = "TESTO DI ESEMPIO";
+						mapHUD.style.left = "0px";
+						mapHUD.style.top = "0px";
+						//mapHUD.style.backgroundColor = "#333";
+						//mapHUD.style.color = "#fff";
+						mapHUD.innerHTML = that.suggest;
 						that.canvas.appendChild(mapHUD);
-					 }  
-						    
+					 }      
 					
 				} 
 				
