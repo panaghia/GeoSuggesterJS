@@ -30,6 +30,9 @@
 		}
 		
 		</style> 
+		
+		<link rel="stylesheet" type="text/css" href="example.css" />
+		
 		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
 		<script type="text/javascript" src="../Source/GeoSuggester-pure.js"></script>
 		<script language="javascript" type="text/javascript">
@@ -40,8 +43,14 @@
 				canvasHeight: 400,
 				mode: 'map',
 				onSelect: function()
-				{
-				   
+				{    				   
+				   document.getElementById('postalCode').value = this.selected.postalCode;
+				   document.getElementById('route').value = this.selected.route;
+				   document.getElementById('street_number').value = this.selected.streetNumber;
+				   document.getElementById('region').value = this.selected.adminArea1; 
+				   document.getElementById('locality').value = this.selected.locality;
+				   document.getElementById('coord').value = this.selected.latitude+ " "+this.selected.longitude;
+					
 				}			
 			});
 		}
@@ -59,7 +68,34 @@
 			<div id="inputWrapper">
 				<input type="text" id="myInput" />
 			</div>
-		   		
+		   		    
+			<div id="results">
+				<h1>Results</h1>
+				<span>
+					<label for="postalCode">Postal Code</label>
+					<input class="geoInput" name="postalCode" type="text" id="postalCode" readonly = true />
+				</span>
+				<span>
+					<label for="route">Route</label>
+					<input class="geoInput" name="route" type="text" id="route" readonly = true />
+				</span>
+				<span>
+					<label for="street_number">Street Number</label>
+					<input class="geoInput" name="street_number" type="text" id="street_number" readonly = true />
+				</span>
+				<span>
+				<label for="region">Region</label>
+				<input class="geoInput" name="region" type="text" id="region" readonly = true />
+				</span>
+				<span>
+				<label for="locality">Locality</label>
+				<input class="geoInput" name="locality" type="text" id="locality" readonly = true />
+				</span>
+				<span>
+					<label for="coord">Coordinates</label>
+					<input class="geoInput" name="coord" type="text" id="coord" readonly = true />
+				</span>
+			</div>		
 		</div>
 		
 	</body>

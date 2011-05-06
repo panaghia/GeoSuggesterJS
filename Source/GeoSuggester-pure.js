@@ -32,9 +32,20 @@ var GeoSuggester = function(inputEl, options)
 	this.manageEvents(); 
 	
 	
-	   
-		
-}
+	this.selected = {
+		postalCode: null,
+		streetNumber: null,
+		route: null,
+		locality: null,
+		adminArea1: null,
+		adminArea2: null,
+		country: null,
+		latitude: null,
+		longitude: null
+	}
+     	
+}    
+
 
 GeoSuggester.prototype.calculate = function()
 {
@@ -89,11 +100,14 @@ GeoSuggester.prototype.manageEvents = function()
 		{
 			event.preventDefault();
 			event.stopPropagation();
+			that.extract();
+
 			that.inputElement.value = that.results[0].formatted_address;
 		    
 		  	if(that.options.onSelect)
 				that.options.onSelect.call(that);
-		  	that.showCanvas(false);		
+		  	that.showCanvas(false);
+			
 		}
 		else
 		{
@@ -132,7 +146,7 @@ GeoSuggester.prototype.showCanvas = function(flag)
 GeoSuggester.prototype.loadMap = function()
 { 
 	var address = this.inputElement.value; 
-	console.log(address);
+ 
 	geocoder = new google.maps.Geocoder();
 	if(geocoder)
 	{
@@ -165,28 +179,15 @@ GeoSuggester.prototype.loadMap = function()
 					});  
 					marker.setMap(map); 
 					
-				   /* 
-					var baloon = new google.maps.InfoWindow({
-						content: that.suggest
-						
-					});
-					baloon.open(map, marker);     */                 
-				   
-					//google.maps.event.addListener()
-					
-					
-				   // console.log(that.mapHUD === null);  		  
+				   		  
 				    if(true)//that.mapHUD === null)
-					{
-						//that.mapHUD = mapHUD; 
-					   // console.log('creadted');
+					{   
 					    var mapHUD = that.mapHUD = document.createElement('div');
 						mapHUD.setAttribute('class', '_mapHud_');
 						mapHUD.style.position = "absolute";
 						mapHUD.style.left = "0px";
 						mapHUD.style.top = "0px";
-						//mapHUD.style.backgroundColor = "#333";
-						//mapHUD.style.color = "#fff";
+						mapHUD.style.zIndex = "999";
 						mapHUD.innerHTML = that.suggest;
 						that.canvas.appendChild(mapHUD);
 					 }      
@@ -200,6 +201,43 @@ GeoSuggester.prototype.loadMap = function()
 		}
 		);
 	}
+	
+	
+}    
+
+GeoSuggester.prototype.extract = function()
+{
+	for(var i = this.results[0].address_components.length; i--;)
+	{
+		var cur = this.results[0].address_components[i]; 
+
+		switch(cur.types[0])
+		{
+			case 'postal_code': this.selected.postalCode = cur.short_name;
+				break; 
+			case 'postal_code_prefix': this.selected.postalCode = cur.short_name //some places do not return postal_code, use postal_code_prefix instead, even if not documented in google api V3
+				break;
+			case 'street_number': this.selected.streetNumber = cur.short_name;
+				break;
+			case 'route': this.selected.route = cur.short_name;
+				break;
+			case 'locality': this.selected.locality = cur.short_name;
+				break;
+			case 'administrative_area_level_1': this.selected.adminArea1 = cur.long_name;
+				break;
+			case 'administrative_area_level_2': this.selected.adminArea2 = cur.long_name;
+				break;
+			case 'country': this.selected.country = cur.long_name = cur.long_name;
+				break;
+			default:
+				break;
+		}   
+		this.selected.latitude = this.results[0].geometry.location.lat();  
+		this.selected.longitude = this.results[0].geometry.location.lng();
+		
+		
+	}
+	
 	
 	
 }
