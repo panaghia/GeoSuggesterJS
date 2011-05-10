@@ -1,7 +1,9 @@
 GeoSuggesterJS
 ===========   
 
-GeoSuggester is a pure Javascript plugin to enhance User Experience when filling geographical information inside forms thanks to Google Maps API.
+GeoSuggester is a pure Javascript plugin.
+
+It aims to enhance User Experience when filling geographical information inside forms thanks to Google Maps API.
 
 How to use
 ---------- 
