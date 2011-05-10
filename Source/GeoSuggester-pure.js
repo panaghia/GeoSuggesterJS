@@ -28,6 +28,7 @@ var GeoSuggester = function(inputEl, options)
 	this.cache = null;
 	
 	this.calculate();
+	this.applyStyles(); 
 	this.inject();
 	this.manageEvents(); 
 	
@@ -73,9 +74,17 @@ GeoSuggester.prototype.calculate = function()
 		
 }
 
-GeoSuggester.prototype.inject = function()
+GeoSuggester.prototype.applyStyles = function()
 {
-	var canvas = this.canvas = document.createElement('div');
+
+	if(this.canvas === null)  //first run
+	{
+		var canvas = this.canvas = document.createElement('div');
+		canvas.style.display = "none";
+	}
+	else //user is resizing window
+		var canvas = this.canvas; 
+
 	canvas.setAttribute('class', '_mapCanvas_');
 	canvas.style.position = "absolute";
 	canvas.style.left = this.posx+"px";
@@ -83,20 +92,31 @@ GeoSuggester.prototype.inject = function()
 	canvas.style.width = (parseInt(this.inputWidth)+parseInt(this.paddingLeft)+parseInt(this.paddingRight))+"px";
  	canvas.style.height = this.options.canvasHeight+"px";
 	canvas.style.border = "1px solid #999";
-	canvas.style.display = "none";
-		
-	document.body.appendChild(canvas);
+  
+}  
+
+GeoSuggester.prototype.inject = function()
+{
+	document.body.appendChild(this.canvas);
 }
 
+
 GeoSuggester.prototype.manageEvents = function()
-{ 
-   
+{
+	//resize event                  
+	window.addEventListener("resize", function(e)
+	{
+		that.calculate();
+		that.applyStyles();
+	}, false);
+    
+
 	//keyup event
 	this.inputElement.addEventListener("keyup", function(event)
 	{
 		var fieldSize = that.inputElement.value.length;   
 		//13 enter, 9 tab, 27 esc
-		if(event.keyCode == '13' || event.keyCode == '9' || event.keyCode == '27')
+		if(event.keyCode == '13' || event.keyCode == '9')
 		{
 			event.preventDefault();
 			event.stopPropagation();
@@ -108,6 +128,11 @@ GeoSuggester.prototype.manageEvents = function()
 				that.options.onSelect.call(that);
 		  	that.showCanvas(false);
 			
+		}
+		else if(event.keyCode == '27') 
+		{
+			event.preventDefault();
+			that.showCanvas(false);
 		}
 		else
 		{
