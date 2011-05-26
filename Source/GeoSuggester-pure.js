@@ -62,7 +62,7 @@ GeoSuggester.prototype.calculate = function()
 		this.paddingTop = getComputedStyle(this.inputElement, "").getPropertyValue("padding-top").match(/(\d*\.?\d*)(.*)/)[1];    
 		this.paddingBottom = getComputedStyle(this.inputElement, "").getPropertyValue("padding-bottom").match(/(\d*\.?\d*)(.*)/)[1];    
 	}
-	else if(inputElement.currentStyle)
+	else if(this.inputElement.currentStyle)
 	{
 		this.inputWidth = this.inputElement.currentStyle["width"].match(/(\d*\.?\d*)(.*)/)[1];
 		this.inputHeight = this.inputElement.currentStyle["height"];
