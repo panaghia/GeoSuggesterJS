@@ -53,7 +53,7 @@ GeoSuggester.prototype.calculate = function()
 	this.posx = this.inputElement.offsetLeft;
 	this.posy = this.inputElement.offsetTop;
 	
-	if(document.defaultView)
+	if(document.defaultView) //DOM LEV 2
 	{ 
 		this.inputWidth = getComputedStyle(this.inputElement, "").getPropertyValue("width").match(/(\d*\.?\d*)(.*)/)[1];
 		this.inputHeight = getComputedStyle(this.inputElement, "").getPropertyValue("height");
@@ -62,15 +62,18 @@ GeoSuggester.prototype.calculate = function()
 		this.paddingTop = getComputedStyle(this.inputElement, "").getPropertyValue("padding-top").match(/(\d*\.?\d*)(.*)/)[1];    
 		this.paddingBottom = getComputedStyle(this.inputElement, "").getPropertyValue("padding-bottom").match(/(\d*\.?\d*)(.*)/)[1];    
 	}
-	else if(this.inputElement.currentStyle)
+	else if(this.inputElement.currentStyle) //Older IE browsers
 	{
 		this.inputWidth = this.inputElement.currentStyle["width"].match(/(\d*\.?\d*)(.*)/)[1];
 		this.inputHeight = this.inputElement.currentStyle["height"];
-		this.paddingLeft = this.inputElement.currentStyle["padding-left"];
-		this.paddingRight = this.inputElement.currentStyle["padding-right"];
-		this.paddingTop = this.inputElement.currentStyle["padding-top"];
-		this.paddingBottom = this.inputElement.currentStyle["padding-bottom"];
-	}
+		this.paddingLeft = this.inputElement.currentStyle["paddingLeft"];
+		this.paddingRight = this.inputElement.currentStyle["paddingRight"];
+		this.paddingTop = this.inputElement.currentStyle["paddingTop"];
+		this.paddingBottom = this.inputElement.currentStyle["paddingBottom"]; 
+		
+	}       
+	
+	
 		
 }
 
@@ -88,7 +91,7 @@ GeoSuggester.prototype.applyStyles = function()
 	canvas.setAttribute('class', '_mapCanvas_');
 	canvas.style.position = "absolute";
 	canvas.style.left = this.posx+"px";  
-	alert(parseInt(this.posy));
+	
 	canvas.style.top = (parseInt(this.posy)+parseInt(this.inputHeight)+parseInt(this.paddingTop)+parseInt(this.paddingBottom))+"px";	
 	canvas.style.width = (parseInt(this.inputWidth)+parseInt(this.paddingLeft)+parseInt(this.paddingRight))+"px";
  	canvas.style.height = this.options.canvasHeight+"px";
@@ -104,54 +107,109 @@ GeoSuggester.prototype.inject = function()
 
 GeoSuggester.prototype.manageEvents = function()
 {
-	//resize event                  
-	window.addEventListener("resize", function(e)
+	//resize event 
+	if(window.addEventListener)
+	{                 
+		window.addEventListener("resize", function(e)
+		{
+			that.calculate();
+			that.applyStyles();
+		}, false);
+	}
+	else if(window.attachEvent)
 	{
-		that.calculate();
-		that.applyStyles();
-	}, false);
+		window.attachEvent('onresize', function(e)
+		{
+			that.calculate();
+			that.applyStyles();			
+		});
+	}
+   
     
 
-	//keyup event
-	this.inputElement.addEventListener("keyup", function(event)
+	//keyup event  
+	if(window.addEventListener)
 	{
-		var fieldSize = that.inputElement.value.length;   
-		//13 enter, 9 tab, 27 esc
-		if(event.keyCode == '13' || event.keyCode == '9')
+		this.inputElement.addEventListener("keyup", function(event)
 		{
-			event.preventDefault();
-			event.stopPropagation();
-			that.extract();
+			var fieldSize = that.inputElement.value.length;   
+			//13 enter, 9 tab, 27 esc
+			if(event.keyCode == '13' || event.keyCode == '9')
+			{
+				event.preventDefault();
+				event.stopPropagation();
+				that.extract();
 
-			that.inputElement.value = that.results[0].formatted_address;
+				that.inputElement.value = that.results[0].formatted_address;
 		    
-		  	if(that.options.onSelect)
-				that.options.onSelect.call(that);
-		  	that.showCanvas(false);
+			  	if(that.options.onSelect)
+					that.options.onSelect.call(that);
+			  	that.showCanvas(false);
 			
-		}
-		else if(event.keyCode == '27') 
-		{
-			event.preventDefault();
-			that.showCanvas(false);
-		}
-		else
-		{
-			if(fieldSize > 8)
-			{
-				that.loadMap();
 			}
-			if(fieldSize > 8 && that.visible === false)
-			{  
-				that.showCanvas(true);
-			}
-			else if(fieldSize == 0)
+			else if(event.keyCode == '27') 
 			{
+				event.preventDefault();  
+                that.inputElement.value = '';
 				that.showCanvas(false);
-			}			
-		}
+			}
+			else
+			{
+				if(fieldSize > 8)
+				{
+					that.loadMap();
+				}
+				if(fieldSize > 8 && that.visible === false)
+				{  
+					that.showCanvas(true);
+				}
+				else if(fieldSize == 0)
+				{
+					that.showCanvas(false);
+				}			
+			}
   	
-	}, false);
+		}, false); 
+	}
+	else if(window.attachEvent)//IE-older specific event
+	{
+		this.inputElement.attachEvent('onkeyup', function(event)
+		{
+			var fieldSize = that.inputElement.value.length;   
+			//13 enter, 9 tab, 27 esc
+			if(event.keyCode == '13' || event.keyCode == '9')
+			{
+				that.extract();
+				that.inputElement.value = that.results[0].formatted_address;  	    
+			  	if(that.options.onSelect)
+					that.options.onSelect.call(that);
+			  	that.showCanvas(false);
+			
+			}
+			else if(event.keyCode == '27') 
+			{ 
+				that.inputElement.value = '';
+				that.showCanvas(false);      				
+			}
+			else
+			{
+				if(fieldSize > 8)
+				{
+					that.loadMap();
+				}
+				if(fieldSize > 8 && that.visible === false)
+				{  
+					that.showCanvas(true);
+				}
+				else if(fieldSize == 0)
+				{
+					that.showCanvas(false);
+				}			
+			}
+			
+		});
+		
+	}
     
 }  
 

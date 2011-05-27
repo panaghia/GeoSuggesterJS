@@ -51,6 +51,11 @@
 				   document.getElementById('locality').value = this.selected.locality;
 				   document.getElementById('coord').value = this.selected.latitude+ " "+this.selected.longitude;
 					
+				},
+				onClear: function()
+				{
+					//cleared
+					alert('user cleared input text');
 				}			
 			});
 		}
