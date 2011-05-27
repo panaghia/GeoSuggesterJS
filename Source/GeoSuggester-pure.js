@@ -11,6 +11,8 @@ provides: GeoSuggester
 
 */    
 
+(function(){ 
+
 var GeoSuggester = function(inputEl, options)
 {
 	this.options = options;
@@ -289,9 +291,7 @@ GeoSuggester.prototype.loadMap = function()
 			}
 		}
 		);
-	}
-	
-	
+	}   
 }    
 
 GeoSuggester.prototype.extract = function()
@@ -322,12 +322,9 @@ GeoSuggester.prototype.extract = function()
 				break;
 		}   
 		this.selected.latitude = this.results[0].geometry.location.lat();  
-		this.selected.longitude = this.results[0].geometry.location.lng();
-		
-		
-	}
-	
-	
-	
-}
+		this.selected.longitude = this.results[0].geometry.location.lng();   	
+	}   
+}          
+
+})();
 
