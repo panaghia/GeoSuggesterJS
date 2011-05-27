@@ -2,11 +2,7 @@
 <html>
 	<head>
 		<style>
-		#wrap
-		{
-			width:500px;
-			margin:0 auto;
-		}
+
 		
 		#myInput
 		{
@@ -14,7 +10,7 @@
 			padding:3px;
 			width: 450px;
 			height:30px;
-			font-size:1.1em;
+			font-size:.9em;
 		}   
 		
 		
@@ -54,24 +50,30 @@
 				},
 				onClear: function()
 				{
-					//cleared
-					alert('user cleared input text');
+					var fields = document.getElementsByClassName('geoInput');    
+					for(i=0;i<fields.length;i++)
+					{
+						fields[i].value = '';
+					}
+				
+				
 				}			
 			});
 		}
 		
-		
-		
-		
-	
-		
-		
+
 		</script>
 	</head>
 	<body>
-		<div id="wrap">  
-			<div id="inputWrapper">
-				<input type="text" id="myInput" />
+		<div id="wrap">     
+			
+			<h1><a href="http://geosuggester.panaghia.it" title="geosuggester home page">GeoSuggester</a></h1>
+			<p>Type an address, then press Enter (or Tab).</p>
+			<p>Press Esc to clear the textbox (will be fired onClear event).</p>
+			<p>example: 1600 Amphitheatre Parkway, Mountain View</p>
+			
+			<div id="inputWrapper">                                  
+				<input placeholder = "Location address.." type="text" id="myInput" />
 			</div>
 		   		    
 			<div id="results">
@@ -100,7 +102,12 @@
 					<label for="coord">Coordinates</label>
 					<input class="geoInput" name="coord" type="text" id="coord" readonly = true />
 				</span>
-			</div>		
+			</div>	 
+			
+			<div id="footer">
+				<p>Copyright <a href="http://panaghia.it" title="Sergio Panagia home page">Sergio Panagia</a></p>
+				<p>Code is released under the MIT STYLE license.</p>				
+			</div>   
 		</div>
 		
 	</body>

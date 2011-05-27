@@ -50,8 +50,10 @@ var GeoSuggester = function(inputEl, options)
 
 GeoSuggester.prototype.calculate = function()
 {
-	this.posx = this.inputElement.offsetLeft;
-	this.posy = this.inputElement.offsetTop;
+	this.posx = parseInt(this.inputElement.offsetLeft);
+	this.posy = parseInt(this.inputElement.offsetTop); 
+	
+  
 	
 	if(document.defaultView) //DOM LEV 2
 	{ 
@@ -149,9 +151,12 @@ GeoSuggester.prototype.manageEvents = function()
 			}
 			else if(event.keyCode == '27') 
 			{
-				event.preventDefault();  
+				event.preventDefault();     
+				if(that.options.onClear)
+					that.options.onClear.call(that);
                 that.inputElement.value = '';
-				that.showCanvas(false);
+				that.showCanvas(false); 
+				
 			}
 			else
 			{

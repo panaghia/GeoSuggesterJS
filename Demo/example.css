@@ -1,20 +1,77 @@
-html
+@import url(http://fonts.googleapis.com/css?family=Crimson+Text);
+body
 {
-	background-color:#FDFDFD;
+	margin:0;
+	padding: 0;
+	
+	font-family: 'Crimson Text', arial, serif;
+	font-size:120%;
+	background-image: url('pattern.png');
+	background-repeat:repeat;
+	color: #fff;
+	text-shadow:0px -1px  #012EA0;
 }
 
+#wrap
+{
+	margin:0 auto;
+	width:590px;     
+	text-align:center;
+}               
+
+#wrap h1
+{  
+	font-size:3.3em;
+	text-align:center; 
+	text-shadow: 0px -2px #012EA0;
+	margin-bottom:10px;
+}   
+
+#footer p a
+{
+	text-decoration:none;
+	color:#DBFFFF;
+}                 
+
+#footer p a:hover
+{
+	text-decoration:underline;
+	color:#91FF8D;
+}
+
+#wrap h1 a
+{
+	text-decoration:none;
+	color:#fff;
+}              
+
+#wrap h1 a:hover
+{
+	text-decoration:underline;
+}
+
+#wrap p
+{
+	text-align:center;
+}
 
 #results
 {
-	position:relative;
+	position:relative;   
+	margin:0 auto;  
 	width:auto;
-	border:1px solid #999;
+	border:1px solid #012EA0;
 	border-radius:5px;
 	padding:15px;
 	max-width:350px;
 	padding-top:35px;
 	z-index:-10;   
-	margin-top:60px;
+	margin-top:60px;                       
+	-webkit-box-shadow:inset 2px 2px 3px rgba(100, 100, 100, .4);  
+	-moz-box-shadow:inset 2px 2px 3px rgba(100, 100, 100, .4); 
+	margin-bottom:30px;           
+   
+    
 }  
 
 #results input[type="text"]
@@ -46,10 +103,9 @@ html
 {
 	position:absolute;
 	top:-20px;
-	left:10px;
-	background-color:#FDFDFD;
+	left:10px;                
 	font-size:1.3em;
-	color:#888;
+	color:#fff;
 	text-transform:uppercase;
 	z-index:0;
 }
