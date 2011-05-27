@@ -41,10 +41,10 @@ Finally, add GeoSuggester magic:
 
 Browser Support
 ----------	   
-Currently tested on Safari 5+, FireFox 4+, IE9.     
+Currently tested on Safari 5+, FireFox 4+, IE8.     
 
 
 Credits
 ----------
 Author: Sergio Panagia [http://panaghia.it]
-Code released under MIT Style license. 
+Code released under MIT-Style license. 
