@@ -166,7 +166,7 @@ GeoSuggester.prototype.manageEvents = function()
 				}
 				if(fieldSize > 8 && that.visible === false)
 				{  
-					that.showCanvas(true);
+					//that.showCanvas(true);
 				}
 				else if(fieldSize == 0)
 				{
@@ -204,7 +204,7 @@ GeoSuggester.prototype.manageEvents = function()
 				}
 				if(fieldSize > 8 && that.visible === false)
 				{  
-					that.showCanvas(true);
+					//that.showCanvas(true);
 				}
 				else if(fieldSize == 0)
 				{
@@ -240,7 +240,8 @@ GeoSuggester.prototype.loadMap = function()
 	if(geocoder)
 	{
 		geocoder.geocode({
-			'address':address
+			'address':address,
+			'region': 'es'
 		},
 		function(results, status)
 		{
@@ -250,10 +251,25 @@ GeoSuggester.prototype.loadMap = function()
 				
 				that.results = results;
 				that.suggest = results[0].formatted_address;
-				var type = results[0].geometry.location_type;
+				var type = results[0].geometry.location_type;  
+				                                              
+				var country = null;
 				
-				if(type !== 'APPROXIMATE')
+				for(var i = 0; i < results[0].address_components.length;i++)
 				{
+					if(results[0].address_components[i].types[0] == "country")
+					{ 
+						country = results[0].address_components[i].short_name;      
+						break;
+					}   				   	
+				}      		   
+				
+				//debug
+				
+				if(type !== 'APPROXIMATE' && country.toLowerCase() === that.options.region.toLowerCase())
+				{
+					that.showCanvas(true);  
+					
 					var gOptions = 
 					{
 						zoom: 9,
@@ -281,6 +297,10 @@ GeoSuggester.prototype.loadMap = function()
 						that.canvas.appendChild(mapHUD);
 					 }      
 					
+				}
+				else
+				{
+					that.showCanvas(false);
 				} 
 				
 				
