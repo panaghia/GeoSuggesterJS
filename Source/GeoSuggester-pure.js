@@ -1,13 +1,14 @@
 /*
 ---
-description: GeoSuggesterJS
+GeoSuggesterJS
+v0.9.1
 
 license: MIT STYLE
 
 authors:
 - Sergio Panagia (http://panaghia.it) 
 
-provides: GeoSuggester
+provides: GeoSuggester 
 
 */    
 (function()
