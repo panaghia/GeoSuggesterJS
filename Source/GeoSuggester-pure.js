@@ -235,13 +235,14 @@ GeoSuggester.prototype.showCanvas = function(flag)
 GeoSuggester.prototype.loadMap = function()
 { 
 	var address = this.inputElement.value; 
- 
+	var prefereRegion = this.options.prefereRegion; 
+	
 	geocoder = new google.maps.Geocoder();
 	if(geocoder)
 	{
 		geocoder.geocode({
 			'address':address,
-			'region': 'es'
+			'region': prefereRegion
 		},
 		function(results, status)
 		{
@@ -263,13 +264,12 @@ GeoSuggester.prototype.loadMap = function()
 						break;
 					}   				   	
 				}      		   
-				
-				//debug
-				
-				if(type !== 'APPROXIMATE' && country.toLowerCase() === that.options.region.toLowerCase())
+
+			    var limitRegion = that.options.limitRegion;  			   
+			   
+				if(type !== 'APPROXIMATE' && limitRegion === undefined || type !== 'APPROXIMATE' && limitRegion !== undefined && limitRegion.toLowerCase() === country.toLowerCase() )
 				{
-					that.showCanvas(true);  
-					
+					that.showCanvas(true);  			
 					var gOptions = 
 					{
 						zoom: 9,

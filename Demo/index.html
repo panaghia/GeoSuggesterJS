@@ -46,7 +46,8 @@
 			var geo = new GeoSuggester("myInput",{
 				canvasHeight: 400,
 				mode: 'map',
-				//region: 'IT',
+				//prefereRegion: 'IT',
+				limitRegion: 'IT',
 				onSelect: function()
 				{   				   
 				   document.getElementById('postalCode').value = this.selected.postalCode;
