@@ -3,12 +3,18 @@
 	<head>
 		<title>GeoSuggester JS - Example Demo.</title>
 	
-		<style>
+		<style>      
+		
+		#inputWrapper
+		{
+		  
+
+		}
 
 		
 		#myInput
 		{
-			
+			position:relative;
 			padding:3px;
 			width: 450px;
 			height:30px;
@@ -36,7 +42,7 @@
 		<script language="javascript" type="text/javascript">
 		
 		window.onload = function()
-		{
+		{  		  
 			var geo = new GeoSuggester("myInput",{
 				canvasHeight: 400,
 				mode: 'map',
@@ -60,8 +66,9 @@
 				
 				
 				}			
-			});
-		}
+			});  
+		
+		}     
 		
 
 		</script>
@@ -70,9 +77,12 @@
 		<div id="wrap">     
 			
 			<h1><a href="http://geosuggester.panaghia.it/pure" title="geosuggester home page">GeoSuggester</a></h1>
-			<p>Type an address, then press Enter (or Tab).</p>
-			<p>Press Esc to clear the textbox (will be fired onClear event).</p>
-			<p>example: 1600 Amphitheatre Parkway, Mountain View</p>
+			<div>
+				<p>Type an address, then press Enter (or Tab).</p>
+				<p>Press Esc to clear the textbox (will be fired onClear event).</p>
+				<p>example: 1600 Amphitheatre Parkway, Mountain View</p>
+			</div>
+			
 			
 			<div id="inputWrapper">                                  
 				<input placeholder = "Location address.." type="text" id="myInput" />

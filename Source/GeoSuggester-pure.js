@@ -10,10 +10,10 @@ authors:
 provides: GeoSuggester
 
 */    
+(function()
+{ 
 
-(function(){ 
-
-var GeoSuggester = function(inputEl, options)
+GeoSuggester = function(inputEl, options)
 {
 	this.options = options;
 	this.inputName = inputEl;
@@ -29,12 +29,19 @@ var GeoSuggester = function(inputEl, options)
 		
 	this.cache = null;
 	
-	this.calculate();
-	this.applyStyles(); 
-	this.inject();
-	this.manageEvents(); 
-	
-	
+	//delay execution of the script
+	//because of problems with detecting
+	//input element position in webkit
+	//(js exec faster than rendering)
+	 
+	window.setTimeout(function()
+	{	
+    	that.calculate();
+		that.applyStyles();
+		that.inject();
+		that.manageEvents();
+	}, 500);
+		
 	this.selected = {
 		postalCode: null,
 		streetNumber: null,
@@ -54,9 +61,7 @@ GeoSuggester.prototype.calculate = function()
 {
 	this.posx = parseInt(this.inputElement.offsetLeft);
 	this.posy = parseInt(this.inputElement.offsetTop); 
-	
-  
-	
+		
 	if(document.defaultView) //DOM LEV 2
 	{ 
 		this.inputWidth = getComputedStyle(this.inputElement, "").getPropertyValue("width").match(/(\d*\.?\d*)(.*)/)[1];
@@ -73,17 +78,12 @@ GeoSuggester.prototype.calculate = function()
 		this.paddingLeft = this.inputElement.currentStyle["paddingLeft"];
 		this.paddingRight = this.inputElement.currentStyle["paddingRight"];
 		this.paddingTop = this.inputElement.currentStyle["paddingTop"];
-		this.paddingBottom = this.inputElement.currentStyle["paddingBottom"]; 
-		
-	}       
-	
-	
-		
+		this.paddingBottom = this.inputElement.currentStyle["paddingBottom"]; 		
+	}          	
 }
 
 GeoSuggester.prototype.applyStyles = function()
 {
-
 	if(this.canvas === null)  //first run
 	{
 		var canvas = this.canvas = document.createElement('div');
@@ -94,18 +94,16 @@ GeoSuggester.prototype.applyStyles = function()
 
 	canvas.setAttribute('class', '_mapCanvas_');
 	canvas.style.position = "absolute";
-	canvas.style.left = this.posx+"px";  
-	
-	canvas.style.top = (parseInt(this.posy)+parseInt(this.inputHeight)+parseInt(this.paddingTop)+parseInt(this.paddingBottom))+"px";	
+	canvas.style.left = this.posx+"px";  	
+	canvas.style.top = (parseInt(this.posy)+parseInt(this.inputHeight)+parseInt(this.paddingTop)+parseInt(this.paddingBottom))+"px";
 	canvas.style.width = (parseInt(this.inputWidth)+parseInt(this.paddingLeft)+parseInt(this.paddingRight))+"px";
  	canvas.style.height = this.options.canvasHeight+"px";
-	canvas.style.border = "1px solid #999";
-  
+	canvas.style.border = "1px solid #999";     
 }  
 
 GeoSuggester.prototype.inject = function()
 {
-	document.body.appendChild(this.canvas);
+	document.body.appendChild(this.canvas);   
 }
 
 
@@ -325,6 +323,5 @@ GeoSuggester.prototype.extract = function()
 		this.selected.longitude = this.results[0].geometry.location.lng();   	
 	}   
 }          
-
+ 
 })();
-
