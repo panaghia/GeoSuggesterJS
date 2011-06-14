@@ -44,7 +44,7 @@ Finally, add GeoSuggester magic:
 
 Region constrains
 ----------
-With GeoSuggester 0.9 is possibile to limit or prefere results to a specific country.
+With GeoSuggester 0.9 is possibile to limit or to prefer results to a specific country.
 
 Preferring a region will show results in that area as first candidates. That won't exclude other locations from outside that region from being shown.
 
@@ -54,7 +54,7 @@ In both cases, you can set regional constraint by passing TLD code as option in 
 
 	var geo = new GeoSuggester("myInput", 
 	{
-		prefereRegion: 'IT',
+		preferRegion: 'IT',
 		limitRegion: 'IT'
 	})
 

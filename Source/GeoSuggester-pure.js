@@ -235,14 +235,14 @@ GeoSuggester.prototype.showCanvas = function(flag)
 GeoSuggester.prototype.loadMap = function()
 { 
 	var address = this.inputElement.value; 
-	var prefereRegion = this.options.prefereRegion; 
+	var preferRegion = this.options.preferRegion; 
 	
 	geocoder = new google.maps.Geocoder();
 	if(geocoder)
 	{
 		geocoder.geocode({
 			'address':address,
-			'region': prefereRegion
+			'region': preferRegion
 		},
 		function(results, status)
 		{
