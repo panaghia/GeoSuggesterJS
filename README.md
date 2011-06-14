@@ -24,7 +24,7 @@ Finally, add GeoSuggester magic:
 		var geo = new GeoSuggester("myInput",
 		{
 			canvasHeight: 400,
-			//prefereRegion: 'IT',
+			//preferRegion: 'IT',
 			//limitRegion: 'IT',
 			onSelect: function()
 			{
